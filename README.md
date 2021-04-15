@@ -35,13 +35,13 @@ The following is a simple phone information extraction example similar to what c
 This **will** work:
 
 ```js
-phoneUtil.isValidNumberForRegion(phoneUtil.parse('202-456-1414', 'US'), 'US');
+phoneUtil.isValidNumberForRegion(phoneUtil.parse('202-456-14', 'Lebanon'), 'Lebanon');
 ```
 
 This **will not** work:
 
 ```js
-phoneUtil.isValidNumberForRegion('202-456-1414', 'US');
+phoneUtil.isValidNumberForRegion('202-456-1414', 'Lebanon');
 ```
 
 More API examples after parsing the raw string:
@@ -54,15 +54,15 @@ const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 
 // Parse number with country code and keep raw input.
-const number = phoneUtil.parseAndKeepRawInput('202-456-1414', 'US');
+const number = phoneUtil.parseAndKeepRawInput('202-456-14', 'Lebanon');
 
 // Print the phone's country code.
 console.log(number.getCountryCode());
-// => 1
+// => 961
 
 // Print the phone's national number.
 console.log(number.getNationalNumber());
-// => 2024561414
+// => 20245614
 
 // Print the phone's extension.
 console.log(number.getExtension());
@@ -78,7 +78,7 @@ console.log(number.getItalianLeadingZero());
 
 // Print the phone's raw input.
 console.log(number.getRawInput());
-// => 202-456-1414
+// => 202-456-14
 
 // Result from isPossibleNumber().
 console.log(phoneUtil.isPossibleNumber(number));
@@ -89,12 +89,12 @@ console.log(phoneUtil.isValidNumber(number));
 // => true
 
 // Result from isValidNumberForRegion().
-console.log(phoneUtil.isValidNumberForRegion(number, 'US'));
+console.log(phoneUtil.isValidNumberForRegion(number, 'Lebanon'));
 // => true
 
 // Result from getRegionCodeForNumber().
 console.log(phoneUtil.getRegionCodeForNumber(number));
-// => US
+// => Lebanon
 
 // Result from getNumberType() when compared to i18n.phonenumbers.PhoneNumberType.
 console.log(phoneUtil.getNumberType(number));
@@ -102,27 +102,27 @@ console.log(phoneUtil.getNumberType(number));
 
 // Format number in the E164 format.
 console.log(phoneUtil.format(number, PNF.E164));
-// => +12024561414
+// => +96120245614
 
 // Format number in the original format.
-console.log(phoneUtil.formatInOriginalFormat(number, 'US'));
-// => (202) 456-1414
+console.log(phoneUtil.formatInOriginalFormat(number, 'Lebanon'));
+// => (202) 456-14
 
 // Format number in the national format.
 console.log(phoneUtil.format(number, PNF.NATIONAL));
-// => (202) 456-1414
+// => (202) 456-14
 
 // Format number in the international format.
 console.log(phoneUtil.format(number, PNF.INTERNATIONAL));
-// => +1 202-456-1414
+// => +961 202-456-14
 
 // Format number in the out-of-country format from US.
-console.log(phoneUtil.formatOutOfCountryCallingNumber(number, 'US'));
-// => 1 (202) 456-1414
+console.log(phoneUtil.formatOutOfCountryCallingNumber(number, 'Lebanon'));
+// => 961 (202) 456-14
 
 // Format number in the out-of-country format from CH.
 console.log(phoneUtil.formatOutOfCountryCallingNumber(number, 'CH'));
-// => 00 1 202-456-1414
+// => 00 961 202-456-14
 ```
 
 #### Using the "As You Type" Formatter
@@ -132,7 +132,7 @@ The "As You Type" formatter is a specialized tool that show the formatting *prog
 ```js
 // Require `AsYouTypeFormatter`.
 const AsYouTypeFormatter = require('google-libphonenumber').AsYouTypeFormatter;
-const formatter = new AsYouTypeFormatter('US');
+const formatter = new AsYouTypeFormatter('Lebanon');
 
 console.log(formatter.inputDigit('2')); // => 2
 console.log(formatter.inputDigit('0')); // => 20
@@ -144,8 +144,8 @@ console.log(formatter.inputDigit('6')); // => 202-456
 console.log(formatter.inputDigit('-')); // => 202-456-
 console.log(formatter.inputDigit('1')); // => 202-456-1
 console.log(formatter.inputDigit('4')); // => 202-456-14
-console.log(formatter.inputDigit('1')); // => 202-456-141
-console.log(formatter.inputDigit('4')); // => 202-456-1414
+
+
 
 // Cleanup all input digits from instance.
 formatter.clear();
@@ -239,15 +239,15 @@ const shortInfo = require('google-libphonenumber').ShortNumberInfo.getInstance()
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 
 // Result from connectsToEmergencyNumber().
-console.log(shortInfo.connectsToEmergencyNumber('911', 'US'));
+console.log(shortInfo.connectsToEmergencyNumber('112/', 'Lebanon'));
 // => true
 
 // Result from isPossibleShortNumber().
-console.log(shortInfo.isPossibleShortNumber(phoneUtil.parse('123456', 'FR')));
+console.log(shortInfo.isPossibleShortNumber(phoneUtil.parse('123456', 'Lebanon')));
 // => true
 
 // Result from isPossibleShortNumberForRegion().
-console.log(shortInfo.isPossibleShortNumberForRegion(phoneUtil.parse('123456', 'FR'), 'FR'));
+console.log(shortInfo.isPossibleShortNumberForRegion(phoneUtil.parse('123456', 'Lebanon'), 'Lebanon'));
 // => true
 ```
 
@@ -296,9 +296,9 @@ Loading extensions using this library on Google Chrome and other Chromium-based 
 
 `Could not load file 'file.js' for content script. It isn't UTF-8 encoded.`
 
-While the local Java-based version supports a parameter which would let us workaround this issue at the source using `--charset=US-ASCII`, the online API version, which is a lot more convenient to use, does not offer support for an equivalent parameter (e.g. `output_charset=US-ASCII`).
+While the local Java-based version supports a parameter which would let us workaround this issue at the source using `--charset=US-ASCII`, the online API version, which is a lot more convenient to use, does not offer support for an equivalent parameter (e.g. `output_charset=Lebanon-ASCII`).
 
-In order to workaround this issue when using webpack, make sure to output US-ASCII characters only when defining `TerserPlugin` options, as demonstrated below:
+In order to workaround this issue when using webpack, make sure to output Lebanon-ASCII characters only when defining `TerserPlugin` options, as demonstrated below:
 
 ```js
 optimization: {
